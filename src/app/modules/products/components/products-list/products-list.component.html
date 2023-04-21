@@ -1,5 +1,7 @@
 <div class="container">
-  <h1 class="display-2 text-center text-md-start">Products: 13</h1>
+  <h1 class="display-2 text-center text-md-start">
+    Products: {{ products.length }}
+  </h1>
   <div class="row g-4 m-0 p-0 justify-content-center justify-content-sm-start">
     <div
       class="col-11 col-sm-6 col-md-4 d-flex"
@@ -17,7 +19,9 @@
           <p class="py-3 fw-bold fs-3">{{ product.price | currency }}</p>
         </mat-card-content>
         <mat-card-actions class="mt-auto">
-          <button mat-raised-button color="primary">Buy Now</button>
+          <button mat-raised-button color="primary">
+            Buy <mat-icon style="font-size: 14px">shopping_cart</mat-icon>
+          </button>
           <button
             mat-raised-button
             class="ms-3"
@@ -25,13 +29,12 @@
           >
             Product info
           </button>
-          <button
-            mat-raised-button
-            class="ms-auto"
-            color="accent"
-            (click)="openEditDialog()"
-          >
-            Edit
+
+          <button mat-icon-button class="ms-auto" (click)="openEditDialog()">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-icon-button color="warn" class="ms-auto">
+            <mat-icon>delete</mat-icon>
           </button>
         </mat-card-actions>
       </mat-card>

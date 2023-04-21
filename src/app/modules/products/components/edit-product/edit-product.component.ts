@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
@@ -8,32 +8,33 @@ import { MatDialogRef } from '@angular/material/dialog';
   styleUrls: ['./edit-product.component.scss'],
 })
 export class EditProductComponent {
-  addDetailsForm = this.fb.group({
+  public addDetailsForm: FormGroup<any> = this.fb.group({
     productProperty: ['', Validators.required],
     productValue: ['', Validators.required],
   });
 
-  editDetailsForm = this.fb.group({
+  public editDetailsForm: FormGroup<any> = this.fb.group({
     productName: ['', [Validators.required]],
     category: ['', Validators.required],
     description: ['', Validators.required],
     price: [0, Validators.required],
     image: [null, Validators.required],
   });
+
   constructor(
     private dialogRef: MatDialogRef<EditProductComponent>,
     private fb: FormBuilder
   ) {}
 
-  close(): void {
+  public close(): void {
     this.dialogRef.close();
   }
 
-  onAddDetailsSubmit() {
+  public onAddDetailsSubmit(): void {
     console.log('add details submitted');
   }
 
-  onEditDetailsSubmit() {
+  public onEditDetailsSubmit(): void {
     console.log('edit details submitted');
   }
 }

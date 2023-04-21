@@ -12,7 +12,7 @@ import {
   styleUrls: ['./products-list.component.scss'],
 })
 export class ProductsListComponent {
-  editProductDialogRef!: MatDialogRef<EditProductComponent>;
+  public editProductDialogRef: MatDialogRef<EditProductComponent> | null = null;
   products: any[] = [
     {
       id: 1,
@@ -54,8 +54,7 @@ export class ProductsListComponent {
 
   constructor(private dialog: MatDialog) {}
 
-  openEditDialog() {
-    console.log('asd');
+  public openEditDialog(): void {
     this.editProductDialogRef = this.dialog.open(EditProductComponent, {
       width: '400px',
     });
