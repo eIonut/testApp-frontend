@@ -1,1 +1,40 @@
-<p>products-list works!</p>
+<div class="container">
+  <h1 class="display-2 text-center text-md-start">Products: 13</h1>
+  <div class="row g-4 m-0 p-0 justify-content-center justify-content-sm-start">
+    <div
+      class="col-11 col-sm-6 col-md-4 d-flex"
+      *ngFor="let product of products"
+    >
+      <mat-card class="product-card d-flex flex-column">
+        <mat-card-header>
+          <mat-card-title>{{ product.name }}</mat-card-title>
+          <mat-card-subtitle class="py-2">{{
+            product.category
+          }}</mat-card-subtitle>
+        </mat-card-header>
+        <img mat-card-image [src]="product.imageUrl" alt="{{ product.name }}" />
+        <mat-card-content class="flex-grow-1">
+          <p class="py-3 fw-bold fs-3">{{ product.price | currency }}</p>
+        </mat-card-content>
+        <mat-card-actions class="mt-auto">
+          <button mat-raised-button color="primary">Buy Now</button>
+          <button
+            mat-raised-button
+            class="ms-3"
+            [routerLink]="['/product', product.id]"
+          >
+            Product info
+          </button>
+          <button
+            mat-raised-button
+            class="ms-auto"
+            color="accent"
+            (click)="openEditDialog()"
+          >
+            Edit
+          </button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+  </div>
+</div>
