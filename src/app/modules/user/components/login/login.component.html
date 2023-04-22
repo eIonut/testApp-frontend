@@ -38,6 +38,10 @@
               </mat-error>
             </mat-form-field>
 
+            <mat-error *ngIf="loginError" class="alert alert-danger my-3">
+              Invalid email or password.</mat-error
+            >
+
             <button
               type="button"
               mat-raised-button

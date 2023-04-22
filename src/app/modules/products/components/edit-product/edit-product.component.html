@@ -1,47 +1,10 @@
 <mat-tab-group color="primary">
-  <mat-tab label="Add Details">
-    <form [formGroup]="addDetailsForm" (ngSubmit)="onAddDetailsSubmit()">
-      <mat-form-field>
-        <mat-label>Field</mat-label>
-        <input matInput formControlName="productProperty" />
-        <mat-error
-          *ngIf="
-            addDetailsForm.controls['productProperty'].hasError('required')
-          "
-          >Product Property is required</mat-error
-        >
-      </mat-form-field>
-      <mat-form-field>
-        <mat-label>Value</mat-label>
-        <input matInput formControlName="productValue" />
-        <mat-error
-          *ngIf="addDetailsForm.controls['productValue'].hasError('required')"
-          >Product Value is required</mat-error
-        >
-      </mat-form-field>
-      <div
-        class="button-group d-flex justify-content-center align-items-center mt-4"
-      >
-        <button
-          mat-raised-button
-          color="accent"
-          [disabled]="addDetailsForm.invalid"
-        >
-          Add
-        </button>
-        <button type="button" mat-raised-button class="ms-3" (click)="close()">
-          Close
-        </button>
-      </div>
-    </form>
-  </mat-tab>
   <mat-tab label="Edit Details">
-    <form [formGroup]="editDetailsForm" (ngSubmit)="onEditDetailsSubmit()">
+    <form [formGroup]="editDetailsForm">
       <mat-form-field>
-        <mat-label>productName</mat-label>
-        <input matInput formControlName="productName" />
-        <mat-error
-          *ngIf="editDetailsForm.controls['productName'].hasError('required')"
+        <mat-label>Product Name</mat-label>
+        <input matInput formControlName="name" />
+        <mat-error *ngIf="editDetailsForm.controls['name'].hasError('required')"
           >Product name is required</mat-error
         >
       </mat-form-field>
@@ -63,27 +26,42 @@
       </mat-form-field>
       <mat-form-field color="primary">
         <mat-label>Price</mat-label>
-        <input matInput formControlName="price" />
+        <input matInput formControlName="price" type="number" />
         <mat-error
           *ngIf="editDetailsForm.controls['price'].hasError('required')"
           >Price is required</mat-error
         >
       </mat-form-field>
 
+      <mat-label class="py-2 ms-5 ps-2 text-start w-100"
+        >Current Image</mat-label
+      >
+      <mat-form-field>
+        <input
+          appearance="outline"
+          matInput
+          type="text"
+          [value]="fileContent"
+          readonly
+        />
+      </mat-form-field>
       <div class="input-group image-input-container mb-3">
+        <mat-label class="py-2 text-start w-100">New Image</mat-label>
         <input
           type="file"
           class="form-control image-input"
           id="inputGroupFile"
-          formControlName="image"
+          (change)="onFileSelected($event)"
         />
         <label class="input-group-text" for="inputGroupFile">Upload</label>
       </div>
+
       <div class="d-flex justify-content-center align-items-center mt-4">
         <button
           mat-raised-button
           color="accent"
           [disabled]="editDetailsForm.invalid"
+          (click)="updateProduct()"
         >
           Save
         </button>

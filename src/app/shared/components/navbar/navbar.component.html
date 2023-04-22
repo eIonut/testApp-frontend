@@ -1,7 +1,39 @@
 <mat-toolbar color="primary">
   <mat-toolbar-row>
-    <button mat-raised-button class="ms-auto" (click)="openAddDialog()">
+    <button
+      mat-raised-button
+      class="ms-auto"
+      (click)="openAddDialog()"
+      *ngIf="isLoggedIn"
+    >
       <mat-icon>add</mat-icon> Add product
+    </button>
+
+    <button
+      mat-raised-button
+      class="ms-2"
+      color="primary"
+      *ngIf="isLoggedIn"
+      (click)="logout()"
+    >
+      Logout
+    </button>
+    <button
+      mat-raised-button
+      class="ms-2 ms-auto"
+      *ngIf="!isLoggedIn"
+      routerLink="/register"
+    >
+      Register
+    </button>
+    <button
+      mat-raised-button
+      color="accent"
+      class="ms-2"
+      *ngIf="!isLoggedIn"
+      routerLink="/login"
+    >
+      Login
     </button>
   </mat-toolbar-row>
 </mat-toolbar>

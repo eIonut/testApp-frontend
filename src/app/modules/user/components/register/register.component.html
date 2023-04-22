@@ -51,7 +51,9 @@
                 letter, 1 lowercase letter, and 1 number.
               </mat-error>
             </mat-form-field>
-
+            <mat-error *ngIf="errorMessage" class="alert alert-danger my-5">
+              {{ errorMessage }}</mat-error
+            >
             <button
               type="button"
               mat-raised-button

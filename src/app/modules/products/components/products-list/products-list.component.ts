@@ -5,6 +5,12 @@ import {
   MAT_DIALOG_DATA,
   MatDialogRef,
 } from '@angular/material/dialog';
+import { ProductsApiService } from '../../services/products-api.service';
+import { IProduct } from '../../models/products.model';
+import { Observable } from 'rxjs';
+import { NavigationStart, Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
+import { ProductsUtilsService } from '../../services/products-utils.service';
 
 @Component({
   selector: 'app-products-list',
@@ -13,50 +19,59 @@ import {
 })
 export class ProductsListComponent {
   public editProductDialogRef: MatDialogRef<EditProductComponent> | null = null;
-  products: any[] = [
-    {
-      id: 1,
-      name: 'Product 1',
-      category: 'Category 1',
-      price: 222,
-      description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-      imageUrl: 'https://via.placeholder.com/200',
-    },
-    {
-      id: 2,
-      name: 'Product 2',
-      category: 'Category 2',
-      price: 322,
-      description:
-        'Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-      imageUrl: 'https://via.placeholder.com/200',
-    },
-    {
-      id: 3,
-      name: 'Product 3',
-      category: 'Category 1',
-      price: 522,
 
-      description:
-        'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
-      imageUrl: 'https://via.placeholder.com/200',
-    },
-    {
-      id: 4,
-      name: 'Product 4',
-      category: 'Category 2',
-      price: 444,
-      description:
-        'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.',
-      imageUrl: 'https://via.placeholder.com/200',
-    },
-  ];
+  constructor(
+    private dialog: MatDialog,
+    private productsApiService: ProductsApiService,
+    private router: Router,
+    private toastr: ToastrService,
+    private productsUtilsService: ProductsUtilsService
+  ) {}
 
-  constructor(private dialog: MatDialog) {}
-
-  public openEditDialog(): void {
+  public products$!: Observable<IProduct[]>;
+  public openEditDialog(product: IProduct): void {
     this.editProductDialogRef = this.dialog.open(EditProductComponent, {
       width: '400px',
+      data: product,
     });
+  }
+
+  ngOnInit() {
+    this.products$ = this.productsApiService.getProducts();
+    const deleteAlert = localStorage.getItem('DeleteAlert');
+    const addAlert = localStorage.getItem('AddAlert');
+    const editAlert = localStorage.getItem('EditAlert');
+    if (deleteAlert) {
+      this.showDeleteAlert();
+      localStorage.removeItem('DeleteAlert');
+    }
+    if (addAlert) {
+      this.showAddAlert();
+      localStorage.removeItem('AddAlert');
+    }
+    if (editAlert) {
+      this.showEditAlert();
+      localStorage.removeItem('EditAlert');
+    }
+  }
+
+  deleteProduct(id: string) {
+    console.log(id);
+    this.productsApiService.deleteProduct(id).subscribe(() => {
+      localStorage.setItem('DeleteAlert', 'Delete');
+      window.location.href = '/products';
+    });
+  }
+
+  showDeleteAlert() {
+    this.toastr.info('Deleted product.', '');
+  }
+
+  showAddAlert() {
+    this.toastr.success('Added product.', '');
+  }
+
+  showEditAlert() {
+    this.toastr.info('Product updated.', '');
   }
 }

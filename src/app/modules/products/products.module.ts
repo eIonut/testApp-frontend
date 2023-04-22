@@ -14,7 +14,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { AddProductComponent } from './components/add-product/add-product.component';
-
+import { FormsModule } from '@angular/forms';
 @NgModule({
   declarations: [
     ProductsListComponent,
@@ -33,6 +33,7 @@ import { AddProductComponent } from './components/add-product/add-product.compon
     MatFormFieldModule,
     MatInputModule,
     MatIconModule,
+    FormsModule,
   ],
   exports: [ProductsRoutingModule, AddProductComponent],
   entryComponents: [EditProductComponent],
