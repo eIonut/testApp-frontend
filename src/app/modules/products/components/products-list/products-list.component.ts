@@ -1,10 +1,15 @@
 import { Component } from '@angular/core';
 import { EditProductComponent } from '../edit-product/edit-product.component';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import {
+  MatDialog,
+  MAT_DIALOG_DATA,
+  MatDialogRef,
+} from '@angular/material/dialog';
 import { ProductsApiService } from '../../services/products-api.service';
 import { IProduct } from '../../models/products.model';
 import { Observable } from 'rxjs';
-import { AlertService } from '../../services/alert.service';
+import { NavigationStart, Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-products-list',
@@ -17,7 +22,7 @@ export class ProductsListComponent {
   constructor(
     private dialog: MatDialog,
     private productsApiService: ProductsApiService,
-    private alertService: AlertService
+    private toastr: ToastrService
   ) {}
 
   public products$!: Observable<IProduct[]>;
@@ -30,18 +35,10 @@ export class ProductsListComponent {
 
   ngOnInit() {
     this.products$ = this.productsApiService.getProducts();
-    this.alertService.checkAndShowAlert(
-      'DeleteAlert',
-      this.alertService.showDeleteAlert.bind(this)
-    );
-    this.alertService.checkAndShowAlert(
-      'AddAlert',
-      this.alertService.showAddAlert.bind(this)
-    );
-    this.alertService.checkAndShowAlert(
-      'EditAlert',
-      this.alertService.showEditAlert.bind(this)
-    );
+
+    this.checkAndShowAlert('DeleteAlert', this.showDeleteAlert.bind(this));
+    this.checkAndShowAlert('AddAlert', this.showAddAlert.bind(this));
+    this.checkAndShowAlert('EditAlert', this.showEditAlert.bind(this));
   }
 
   deleteProduct(id: string) {
@@ -50,5 +47,25 @@ export class ProductsListComponent {
       localStorage.setItem('DeleteAlert', 'Delete');
       window.location.href = '/products';
     });
+  }
+
+  private checkAndShowAlert(alertName: string, showAlertFn: () => void) {
+    const alertValue = localStorage.getItem(alertName);
+    if (alertValue) {
+      showAlertFn();
+      localStorage.removeItem(alertName);
+    }
+  }
+
+  showDeleteAlert() {
+    this.toastr.info('Deleted product.', '');
+  }
+
+  showAddAlert() {
+    this.toastr.success('Added product.', '');
+  }
+
+  showEditAlert() {
+    this.toastr.info('Product updated.', '');
   }
 }
