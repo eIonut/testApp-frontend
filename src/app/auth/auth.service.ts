@@ -22,15 +22,15 @@ export class AuthService {
     private router: Router,
     private toastr: ToastrService
   ) {
-    console.log('AuthService created');
-    console.log('loggedIn:', this.loggedIn.value);
-    console.log('token:', this.getToken());
     if (this.getToken()) {
       this.loggedIn.next(true);
     }
   }
 
-  login(credentials: { email: string; password: string }): Observable<any> {
+  public login(credentials: {
+    email: string;
+    password: string;
+  }): Observable<any> {
     return this.http
       .post<{ token: string }>(`${this.apiUrl}/login`, credentials)
       .pipe(
@@ -46,7 +46,7 @@ export class AuthService {
       );
   }
 
-  public getToken() {
+  public getToken(): string | null {
     return localStorage.getItem('token');
   }
 

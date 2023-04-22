@@ -1,5 +1,4 @@
 import { CommonModule } from '@angular/common';
-
 import { ProductsRoutingModule } from './products-routing.module';
 import { ProductsListComponent } from './components/products-list/products-list.component';
 import { ProductInfoComponent } from './components/product-info/product-info.component';

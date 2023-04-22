@@ -31,7 +31,7 @@ export class RegisterComponent {
     private toastr: ToastrService
   ) {}
 
-  register(): void {
+  public register(): void {
     this.auth
       .register({
         username: this.registerForm.controls['name'].value,

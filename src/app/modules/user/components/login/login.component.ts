@@ -11,7 +11,7 @@ import { AuthService } from 'src/app/auth/auth.service';
   styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent {
-  loginError: string = '';
+  public loginError: string = '';
 
   public loginForm: FormGroup<any> = this.fb.group({
     email: ['', [Validators.required, Validators.email]],
@@ -32,7 +32,7 @@ export class LoginComponent {
     private toastr: ToastrService
   ) {}
 
-  login(): void {
+  public login(): void {
     this.auth
       .login({
         email: this.loginForm.controls['email'].value,
@@ -51,6 +51,4 @@ export class LoginComponent {
 
     this.loginForm.reset();
   }
-
-  ngOnInit() {}
 }

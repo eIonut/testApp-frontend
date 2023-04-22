@@ -1,16 +1,10 @@
 import { Component } from '@angular/core';
 import { EditProductComponent } from '../edit-product/edit-product.component';
-import {
-  MatDialog,
-  MAT_DIALOG_DATA,
-  MatDialogRef,
-} from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ProductsApiService } from '../../services/products-api.service';
 import { IProduct } from '../../models/products.model';
 import { Observable } from 'rxjs';
-import { NavigationStart, Router } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
-import { ProductsUtilsService } from '../../services/products-utils.service';
+import { AlertService } from '../../services/alert.service';
 
 @Component({
   selector: 'app-products-list',
@@ -23,9 +17,7 @@ export class ProductsListComponent {
   constructor(
     private dialog: MatDialog,
     private productsApiService: ProductsApiService,
-    private router: Router,
-    private toastr: ToastrService,
-    private productsUtilsService: ProductsUtilsService
+    private alertService: AlertService
   ) {}
 
   public products$!: Observable<IProduct[]>;
@@ -38,21 +30,18 @@ export class ProductsListComponent {
 
   ngOnInit() {
     this.products$ = this.productsApiService.getProducts();
-    const deleteAlert = localStorage.getItem('DeleteAlert');
-    const addAlert = localStorage.getItem('AddAlert');
-    const editAlert = localStorage.getItem('EditAlert');
-    if (deleteAlert) {
-      this.showDeleteAlert();
-      localStorage.removeItem('DeleteAlert');
-    }
-    if (addAlert) {
-      this.showAddAlert();
-      localStorage.removeItem('AddAlert');
-    }
-    if (editAlert) {
-      this.showEditAlert();
-      localStorage.removeItem('EditAlert');
-    }
+    this.alertService.checkAndShowAlert(
+      'DeleteAlert',
+      this.alertService.showDeleteAlert.bind(this)
+    );
+    this.alertService.checkAndShowAlert(
+      'AddAlert',
+      this.alertService.showAddAlert.bind(this)
+    );
+    this.alertService.checkAndShowAlert(
+      'EditAlert',
+      this.alertService.showEditAlert.bind(this)
+    );
   }
 
   deleteProduct(id: string) {
@@ -61,17 +50,5 @@ export class ProductsListComponent {
       localStorage.setItem('DeleteAlert', 'Delete');
       window.location.href = '/products';
     });
-  }
-
-  showDeleteAlert() {
-    this.toastr.info('Deleted product.', '');
-  }
-
-  showAddAlert() {
-    this.toastr.success('Added product.', '');
-  }
-
-  showEditAlert() {
-    this.toastr.info('Product updated.', '');
   }
 }

@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { IProduct } from '../models/products.model';
-import { Observable, Subject, finalize, tap } from 'rxjs';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -11,7 +11,7 @@ export class ProductsApiService {
 
   constructor(private http: HttpClient) {}
 
-  getProducts(): Observable<IProduct[]> {
+  public getProducts(): Observable<IProduct[]> {
     const token = localStorage.getItem('token');
     const headers = new HttpHeaders({
       Authorization: `Bearer ${token}`,
@@ -20,7 +20,7 @@ export class ProductsApiService {
     return this.http.get<IProduct[]>(`${this.apiUrl}/products`, { headers });
   }
 
-  getProduct(id: string): Observable<IProduct> {
+  public getProduct(id: string): Observable<IProduct> {
     const token = localStorage.getItem('token');
     const headers = new HttpHeaders({
       Authorization: `Bearer ${token}`,
@@ -31,16 +31,18 @@ export class ProductsApiService {
     });
   }
 
-  addProducts(productData: any) {
+  public addProducts(productData: any): Observable<IProduct> {
     const token = localStorage.getItem('token');
     const headers = new HttpHeaders({
       Authorization: `Bearer ${token}`,
       'Content-Type': 'application/json',
     });
-    return this.http.post(`${this.apiUrl}/products`, productData, { headers });
+    return this.http.post<IProduct>(`${this.apiUrl}/products`, productData, {
+      headers,
+    });
   }
 
-  deleteProduct(id: string) {
+  public deleteProduct(id: string) {
     const token = localStorage.getItem('token');
     const headers = new HttpHeaders({
       Authorization: `Bearer ${token}`,
@@ -49,14 +51,18 @@ export class ProductsApiService {
     return this.http.delete(`${this.apiUrl}/products/${id}`, { headers });
   }
 
-  updateProduct(productData: any, id: string) {
+  public updateProduct(productData: any, id: string): Observable<IProduct> {
     const token = localStorage.getItem('token');
     const headers = new HttpHeaders({
       Authorization: `Bearer ${token}`,
       'Content-Type': 'application/json',
     });
-    return this.http.put(`${this.apiUrl}/products/${id}`, productData, {
-      headers,
-    });
+    return this.http.put<IProduct>(
+      `${this.apiUrl}/products/${id}`,
+      productData,
+      {
+        headers,
+      }
+    );
   }
 }

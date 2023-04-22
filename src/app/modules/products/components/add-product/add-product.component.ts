@@ -12,7 +12,7 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./add-product.component.scss'],
 })
 export class AddProductComponent {
-  fileContent: any;
+  fileContent: string | ArrayBuffer | null = '';
   @ViewChild('fileInput') fileInput!: ElementRef;
   public fileInputValue = '';
   errorMessage: string = '';
@@ -26,11 +26,10 @@ export class AddProductComponent {
     private dialogRef: MatDialogRef<AddProductComponent>,
     private fb: FormBuilder,
     private productsApiService: ProductsApiService,
-    private router: Router,
     private toastr: ToastrService
   ) {}
 
-  ngAfterViewInit() {
+  ngAfterViewInit(): void {
     this.fileInputValue = this.fileInput.nativeElement.value;
   }
 
@@ -44,7 +43,6 @@ export class AddProductComponent {
       ...this.addNewProductForm.value,
       image: this.fileContent,
     };
-    console.log(formData);
     this.productsApiService.addProducts(formData).subscribe(
       (response) => {
         localStorage.setItem('AddAlert', 'Add');

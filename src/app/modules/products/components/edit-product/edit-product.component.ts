@@ -1,7 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { Observable } from 'rxjs';
 import { IProduct } from '../../models/products.model';
 import { ProductsApiService } from '../../services/products-api.service';
 
@@ -11,7 +10,7 @@ import { ProductsApiService } from '../../services/products-api.service';
   styleUrls: ['./edit-product.component.scss'],
 })
 export class EditProductComponent {
-  public fileContent: any;
+  public fileContent: string | ArrayBuffer | null = '';
 
   public product!: IProduct;
 
@@ -31,7 +30,7 @@ export class EditProductComponent {
     this.product = data;
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.editDetailsForm.patchValue({
       name: this.product?.name || '',
       category: this.product?.category || '',
@@ -39,14 +38,13 @@ export class EditProductComponent {
       price: this.product?.price || '',
     });
     this.fileContent = this.product?.image;
-    console.log(this.fileContent);
   }
 
   public close(): void {
     this.dialogRef.close();
   }
 
-  public updateProduct() {
+  public updateProduct(): void {
     const productData = {
       ...this.editDetailsForm.value,
       image: this.fileContent,

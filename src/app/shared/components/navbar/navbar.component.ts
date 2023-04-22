@@ -14,13 +14,13 @@ export class NavbarComponent {
   public isLoggedIn = false;
 
   constructor(private dialog: MatDialog, private auth: AuthService) {}
-  openAddDialog() {
+  public openAddDialog(): void {
     this.addProductDialogRef = this.dialog.open(AddProductComponent, {
       width: '400px',
     });
   }
 
-  logout() {
+  public logout(): void {
     this.auth.logout();
   }
 
