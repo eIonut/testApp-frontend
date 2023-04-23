@@ -11,15 +11,14 @@ import { ProductsApiService } from '../../services/products-api.service';
 })
 export class EditProductComponent {
   public fileContent: string | ArrayBuffer | null = '';
-
   public product!: IProduct;
-
   public editDetailsForm: FormGroup<any> = this.fb.group({
     name: ['', [Validators.required]],
     category: ['', Validators.required],
     description: ['', Validators.required],
     price: [0, [Validators.required]],
   });
+
   public errorMessage: string = '';
 
   constructor(

@@ -12,7 +12,7 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./add-product.component.scss'],
 })
 export class AddProductComponent {
-  fileContent: string | ArrayBuffer | null = '';
+  public fileContent: string | ArrayBuffer | null = '';
   @ViewChild('fileInput') fileInput!: ElementRef;
   public fileInputValue = '';
   public errorMessage: string = '';

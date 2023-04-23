@@ -41,15 +41,14 @@ export class ProductsListComponent {
     this.checkAndShowAlert('EditAlert', this.showEditAlert.bind(this));
   }
 
-  deleteProduct(id: string) {
-    console.log(id);
+  public deleteProduct(id: string): void {
     this.productsApiService.deleteProduct(id).subscribe(() => {
       localStorage.setItem('DeleteAlert', 'Delete');
       window.location.href = '/products';
     });
   }
 
-  private checkAndShowAlert(alertName: string, showAlertFn: () => void) {
+  private checkAndShowAlert(alertName: string, showAlertFn: () => void): void {
     const alertValue = localStorage.getItem(alertName);
     if (alertValue) {
       showAlertFn();
@@ -57,15 +56,15 @@ export class ProductsListComponent {
     }
   }
 
-  showDeleteAlert() {
+  private showDeleteAlert(): void {
     this.toastr.info('Deleted product.', '');
   }
 
-  showAddAlert() {
+  private showAddAlert(): void {
     this.toastr.success('Added product.', '');
   }
 
-  showEditAlert() {
+  private showEditAlert(): void {
     this.toastr.info('Product updated.', '');
   }
 }
