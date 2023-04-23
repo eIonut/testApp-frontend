@@ -20,6 +20,7 @@ export class EditProductComponent {
     description: ['', Validators.required],
     price: [0, [Validators.required]],
   });
+  public errorMessage: string = '';
 
   constructor(
     private dialogRef: MatDialogRef<EditProductComponent>,
@@ -45,6 +46,9 @@ export class EditProductComponent {
   }
 
   public updateProduct(): void {
+    if (this.errorMessage === 'Selected file is not an image') {
+      return;
+    }
     const productData = {
       ...this.editDetailsForm.value,
       image: this.fileContent,
@@ -61,11 +65,16 @@ export class EditProductComponent {
     const files = ($event.target as HTMLInputElement).files;
     if (files && files.length > 0) {
       const file = files[0];
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        this.fileContent = reader.result;
-      };
-      reader.readAsDataURL(file);
+      if (file.type.startsWith('image/')) {
+        this.errorMessage = '';
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          this.fileContent = reader.result;
+        };
+        reader.readAsDataURL(file);
+      } else {
+        this.errorMessage = 'Selected file is not an image';
+      }
     }
   }
 }

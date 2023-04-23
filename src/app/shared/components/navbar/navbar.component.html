@@ -2,6 +2,16 @@
   <mat-toolbar-row>
     <button
       mat-raised-button
+      class="me-auto"
+      [routerLink]="['/products']"
+      *ngIf="isLoggedIn"
+    >
+      See products
+    </button>
+
+    <button
+      mat-raised-button
+      color="accent"
       class="ms-auto"
       (click)="openAddDialog()"
       *ngIf="isLoggedIn"

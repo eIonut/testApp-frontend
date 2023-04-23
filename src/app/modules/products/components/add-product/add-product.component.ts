@@ -15,7 +15,7 @@ export class AddProductComponent {
   fileContent: string | ArrayBuffer | null = '';
   @ViewChild('fileInput') fileInput!: ElementRef;
   public fileInputValue = '';
-  errorMessage: string = '';
+  public errorMessage: string = '';
   public addNewProductForm: FormGroup<any> = this.fb.group({
     name: ['', [Validators.required]],
     category: ['', Validators.required],
@@ -60,11 +60,16 @@ export class AddProductComponent {
     const files = ($event.target as HTMLInputElement).files;
     if (files && files.length > 0) {
       const file = files[0];
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        this.fileContent = reader.result;
-      };
-      reader.readAsDataURL(file);
+      if (file.type.startsWith('image/')) {
+        this.errorMessage = '';
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          this.fileContent = reader.result;
+        };
+        reader.readAsDataURL(file);
+      } else {
+        this.errorMessage = 'Selected file is not an image';
+      }
     }
   }
 

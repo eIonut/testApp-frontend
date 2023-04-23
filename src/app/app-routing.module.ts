@@ -1,9 +1,13 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { NotFoundComponent } from './shared/components/not-found/not-found.component';
-import { AuthGuard } from './auth/auth.guard';
 
 const routes: Routes = [
+  {
+    path: '',
+    redirectTo: '/products',
+    pathMatch: 'full',
+  },
   {
     path: '',
     loadChildren: () =>
