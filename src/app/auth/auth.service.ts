@@ -15,7 +15,7 @@ import {
   providedIn: 'root',
 })
 export class AuthService {
-  private apiUrl = 'http://16.16.160.196:3000';
+  private apiUrl = 'http://16.16.160.31:3000';
   public loggedIn = new BehaviorSubject<boolean>(this.getToken() !== null);
   constructor(
     private http: HttpClient,
